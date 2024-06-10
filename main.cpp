@@ -1,7 +1,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -16,38 +16,30 @@ void Print();
 map<string, vector<string>> db;
 
 int main(){
-int n;
-cin >> n;
 
-for(int i = 0; i < n; i++){
-    string command;
-    cin >> command;
+string command, date, description;
 
-    if(command == "Add"){
-        string date, event;
-        cin >> date >> event;
-        Add(date, event);
-    }
-    else if(command == "DelEvent"){
-        string date, event;
-        cin >> date >> event;
-        DelEvent(date, event);
-    }
-    else if(command == "DelDate"){
-        string date;
-        cin >> date;
-        DelDate(date);
-    }
-    else if(command == "Find"){
-        string date;
+while (getline(cin , command)) {
+        if (command == "Add") {
+        cin >> date >> description;
+        Add(date, description);
+    } else if (command == "Del") {
+        cin >> date >> description;
+        if (description.empty())
+            DelDate(date);
+        else
+           DelEvent(date, description);
+    } else if (command == "Find") {
         cin >> date;
         Find(date);
+       } else if (command == "Print") {
+       Print();
+    } else {
+        cout << "Unknown command: " << command << endl;
+        return 1; 
     }
-    else if(command == "Print"){
-        Print();
     }
-}
-    return 0;
+return 0;
 }
 
 void Add(string date, string event){
